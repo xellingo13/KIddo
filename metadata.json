@@ -1,0 +1,10 @@
+{
+  "name": "UYTOP",
+  "description": "Premium ko'chmas mulk va ijara platformasi. Zamonaviy dizayn va qulay qidiruv.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
