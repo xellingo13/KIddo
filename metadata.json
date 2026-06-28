@@ -1,6 +1,6 @@
 {
-  "name": "UYTOP",
-  "description": "Premium ko'chmas mulk va ijara platformasi. Zamonaviy dizayn va qulay qidiruv.",
+  "name": "KIDDOO",
+  "description": "Ota-onalarni ishonchli enagalar va bolaga qarovchilar bilan bog‘laydigan zamonaviy, xavfsiz va foydalanuvchilar uchun qulay KIDDOO platformasi.",
   "requestFramePermissions": [
     "geolocation"
   ],

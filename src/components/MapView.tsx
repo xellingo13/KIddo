@@ -1,5 +1,5 @@
 import { APIProvider, Map, AdvancedMarker, Pin, useMap } from '@vis.gl/react-google-maps';
-import { Place } from '../types';
+import { Nanny as Place } from '../types';
 import { useEffect } from 'react';
 import { Map as MapIcon } from 'lucide-react';
 
@@ -10,6 +10,7 @@ interface MapViewProps {
   places: Place[];
   selectedPlace: Place | null;
   onSelectPlace: (place: Place) => void;
+  language?: 'UZ' | 'EN' | 'RU';
 }
 
 function MapUpdater({ selectedPlace }: { selectedPlace: Place | null }) {
@@ -64,35 +65,65 @@ const MAP_STYLES = [
   }
 ];
 
-export default function MapView({ places, selectedPlace, onSelectPlace }: MapViewProps) {
+export default function MapView({ places, selectedPlace, onSelectPlace, language = 'UZ' }: MapViewProps) {
+  const tMap = {
+    UZ: {
+      inactive: "Xarita faol emas",
+      needsKey: "Interaktiv xaritani ko'rish uchun Google Maps API kaliti talab qilinadi.",
+      stepsTitle: "O'rnatish bosqichlari",
+      step1: "Cloud Console orqali kalit oling.",
+      step2: "Sozlamalar (Secrets) bo'limiga kiring.",
+      step3: "GOOGLE_MAPS_PLATFORM_KEY maxfiy so'zini qo'shing.",
+      autoUpdate: "Avtomatik yangilanadi"
+    },
+    EN: {
+      inactive: "Map is inactive",
+      needsKey: "A Google Maps API key is required to view the interactive map.",
+      stepsTitle: "Setup Steps",
+      step1: "Obtain an API key via the Cloud Console.",
+      step2: "Go to the Settings (Secrets) tab.",
+      step3: "Add the GOOGLE_MAPS_PLATFORM_KEY secret.",
+      autoUpdate: "Automatically updates"
+    },
+    RU: {
+      inactive: "Карта неактивна",
+      needsKey: "Для просмотра интерактивной карты требуется API-ключ Google Maps.",
+      stepsTitle: "Шаги установки",
+      step1: "Получите ключ через Cloud Console.",
+      step2: "Перейдите в раздел Настройки (Secrets).",
+      step3: "Добавьте секретное слово GOOGLE_MAPS_PLATFORM_KEY.",
+      autoUpdate: "Обновляется автоматически"
+    }
+  }[language];
+
   if (!hasValidKey) {
     return (
       <div className="flex flex-col items-center justify-center h-full bg-[#fcfcfc] p-8 text-center border-l border-black/[0.03]">
         <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mb-8 border border-black/5 shadow-xl">
           <MapIcon className="w-10 h-10 text-brand" />
         </div>
-        <h2 className="text-3xl font-serif mb-4 text-slate-900">Xarita faol emas</h2>
+        <h2 className="text-3xl font-serif mb-4 text-slate-900">{tMap.inactive}</h2>
         <p className="max-w-xs text-slate-400 mb-8 font-light leading-relaxed">
-          Interaktiv xaritani ko'rish uchun Google Maps API kaliti talab qilinadi.
+          {tMap.needsKey}
         </p>
         <div className="bg-white border border-black/5 rounded-[2rem] p-8 text-left w-full max-w-sm mb-8 shadow-sm">
-          <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-brand mb-6 text-center">O'rnatish bosqichlari</h4>
+          <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-brand mb-6 text-center">{tMap.stepsTitle}</h4>
           <ol className="text-xs space-y-5 text-slate-500 font-medium">
             <li className="flex gap-4">
               <span className="flex shrink-0 w-6 h-6 rounded-full bg-slate-50 border border-black/5 items-center justify-center text-[10px] text-slate-400">01</span>
-              <span><a href="https://console.cloud.google.com/google/maps-apis/start" className="text-slate-900 underline decoration-brand/30 underline-offset-4">Cloud Console</a> orqali kalit oling.</span>
+              <span><a href="https://console.cloud.google.com/google/maps-apis/start" className="text-slate-900 underline decoration-brand/30 underline-offset-4">Cloud Console</a> {tMap.step1}</span>
             </li>
             <li className="flex gap-4">
               <span className="flex shrink-0 w-6 h-6 rounded-full bg-slate-50 border border-black/5 items-center justify-center text-[10px] text-slate-400">02</span>
-              <span>Sozlamalar (Secrets) bo'limiga kiring.</span>
+              <span>{tMap.step2}</span>
             </li>
             <li className="flex gap-4">
               <span className="flex shrink-0 w-6 h-6 rounded-full bg-slate-50 border border-black/5 items-center justify-center text-[10px] text-slate-400">03</span>
-              <span><code>GOOGLE_MAPS_PLATFORM_KEY</code> maxfiy so'zini qo'shing.</span>
+              <span>{tMap.step3}</span>
             </li>
           </ol>
         </div>
-        <p className="text-[10px] text-slate-300 uppercase tracking-widest font-black animate-pulse">Avtomatik yangilanadi</p>
+        <p className="text-[10px] text-slate-300 uppercase tracking-widest font-black animate-pulse">{tMap.autoUpdate}</p>
       </div>
     );
   }
